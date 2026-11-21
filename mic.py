@@ -6,7 +6,7 @@ from openai import OpenAI
 # ---------------------------------------------------------
 # 1. OpenAI API 키 직접 삽입
 # ---------------------------------------------------------
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
 
 # 페이지 설정
 st.set_page_config(
