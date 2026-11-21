@@ -3,11 +3,6 @@ import streamlit as st
 from audio_recorder_streamlit import audio_recorder
 from openai import OpenAI
 
-# ---------------------------------------------------------
-# 1. OpenAI API 키 직접 삽입
-# ---------------------------------------------------------
-OPENAI_API_KEY = "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"
-
 # 페이지 설정
 st.set_page_config(
     page_title="AI 음성 인식 기초 상담",
@@ -15,15 +10,27 @@ st.set_page_config(
     layout="centered",
 )
 
+# ---------------------------------------------------------
+# 1. 왼쪽 사이드바에서 OpenAI API 키 직접 입력
+# ---------------------------------------------------------
+with st.sidebar:
+    st.header("🔑 API 설정")
+    api_key = st.text_input(
+        "OpenAI API Key",
+        type="password",
+        placeholder="sk-...",
+        help="화면 왼쪽에 직접 입력한 키는 현재 세션에서만 사용되며 코드에 저장되지 않습니다.",
+    )
+    st.caption("입력한 키는 브라우저 세션 동안만 유지됩니다.")
+
 st.title("🎙️ AI 음성 인식 기초 상담 앱")
 st.caption("마이크로 말씀하신 내용을 AI가 텍스트로 변환하고, 기초 상담을 진행합니다.")
 
-# API 키 유효성 간단 체크
-if not OPENAI_API_KEY or OPENAI_API_KEY.startswith("sk-여기에"):
-    st.warning("코드 상단의 `OPENAI_API_KEY` 변수에 실제 OpenAI API 키를 입력해 주세요.")
+if not api_key or not api_key.strip():
+    st.info("왼쪽 사이드바에 **OpenAI API Key**를 입력한 뒤 사용해 주세요.")
     st.stop()
 
-client = OpenAI(api_key=OPENAI_API_KEY)
+client = OpenAI(api_key=api_key.strip())
 
 # ---------------------------------------------------------
 # 2. 세션 상태 초기화 (상담 이력 & 기초 상담 메모)
